@@ -7,7 +7,7 @@ const startServer = async () => {
 
   try {
     app.listen(PORT, () => logger.info(`Listening on port ${PORT}`));
-  } catch (err: unknown) {
+  } catch (err) {
     if (err instanceof Error) {
       logger.error(err.message);
       setTimeout(() => {

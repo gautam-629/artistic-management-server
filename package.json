@@ -28,7 +28,6 @@
   "homepage": "https://github.com/gautam-629/express-app-template#readme",
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@types/express": "^5.0.0",
     "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
@@ -58,7 +57,6 @@
     "cls-hooked": "^4.2.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
-    "express": "^4.21.1",
     "winston": "^3.17.0"
   }
 }
