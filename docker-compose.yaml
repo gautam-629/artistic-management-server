@@ -17,11 +17,11 @@ services:
   artistic-app:
     build:
       context: .
-      dockerfile: ./docker/dev/Dockerfile  # Ensure this file exists
+      dockerfile: ./docker/dev/Dockerfile  
     container_name: artistic-container
     environment:
       DB_USER: root
-      DB_HOST: postgres  # Use service name instead of localhost
+      DB_HOST: postgres  
       DB_NAME: artist_management
       DB_PASSWORD: root
       DB_PORT: 5432
