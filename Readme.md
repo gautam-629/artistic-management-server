@@ -1,6 +1,6 @@
-# Express.js Project
+# Node js Project
 
-A Node.js backend application built with Express.js and TypeScript.
+A Node.js backend application
 
 ## Prerequisites
 
@@ -30,8 +30,6 @@ This project includes the following npm scripts:
 - **`npm run lint:check`**: Runs ESLint to check for code quality issues
 - **`npm run lint:fix`**: Automatically fixes ESLint issues where possible
 - **`npm test`**: Runs Jest tests in sequence
-- **`npm run test:watch`**: Runs Jest tests in watch mode
-- **`npm run test:coverage`**: Runs Jest tests with coverage reporting
 - **`npm run prepare`**: Sets up Husky for Git hooks
 
 ## Development
@@ -44,21 +42,6 @@ npm run dev
 
 The server will be available at http://localhost:<port>, where `<port>` is
 defined in your configuration.
-
-## Testing
-
-This project uses Jest for testing:
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
-```
 
 ## Code Quality
 
