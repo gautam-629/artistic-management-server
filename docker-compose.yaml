@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: manage-container
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: artist_management
+    ports:
+      - '5432:5432'
+    volumes:
+      - manage:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  artistic-app:
+    build:
+      context: .
+      dockerfile: ./docker/dev/Dockerfile  
+    container_name: artistic-container
+    environment:
+      DB_USER: root
+      DB_HOST: postgres  
+      DB_NAME: artist_management
+      DB_PASSWORD: root
+      DB_PORT: 5432
+      PORT: 6000
+    ports:
+      - "6000:6000"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    volumes:
+      - ./src:/app/src  
+    command: npm run dev  
+
+volumes:
+  manage:
+    name: manage
