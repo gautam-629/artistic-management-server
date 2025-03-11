@@ -1,5 +1,5 @@
 import http from 'http';
-import { testDbConnection } from './infrastructure/database/pgSql/data-source';
+import { testDbConnection } from './config/data-source';
 
 const app = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'application/json' });

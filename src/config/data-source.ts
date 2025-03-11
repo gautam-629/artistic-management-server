@@ -1,6 +1,6 @@
 import { Pool } from "pg";
-import { Config } from "../../../config";
-import logger from "../../../config/logger";
+import { Config } from ".";
+import logger from "./logger";
 
 const pool=new Pool({
     user: Config.DB_USER,
@@ -12,7 +12,7 @@ const pool=new Pool({
 
 export const testDbConnection= async()=>{
     try {
-         const client=await pool.connect()
+        const client=await pool.connect()
         logger.info("Database Connected Successfully")
         client.release()
     } catch (error) {
