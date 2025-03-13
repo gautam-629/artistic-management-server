@@ -65,5 +65,24 @@ export class Userservice{
          return result.rows[0] || null;
     }
 
-
+ async updateUser(id:string,userData:IUser){
+       const { first_name, last_name, phone, dob, gender, address, role }=userData;
+        const query = `
+        UPDATE users 
+        SET first_name = COALESCE($1, first_name),
+            last_name = COALESCE($2, last_name),
+            phone = COALESCE($3, phone),
+            dob = COALESCE($4, dob),
+            gender = COALESCE($5, gender),
+            address = COALESCE($6, address),
+            role = COALESCE($7, role),
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = $8
+        RETURNING *;
+      `;
+  
+      const result = await pool.query(query, [first_name, last_name, phone, dob, gender, address, role, id]);
+      return result.rows[0] || null;
+  
+ }
 }

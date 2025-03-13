@@ -25,6 +25,9 @@ export class UserController{
             else if (req.method === 'DELETE' && id){
               return asyncWrapper(this.deleteUser.bind(this))(req, res);
             }
+            else if (req.method === 'PUT' && id){
+              return asyncWrapper(this.updateUser.bind(this))(req, res);
+            }
             else {
                 sendResponse(res,405,"Method Not Allowed")
               }
@@ -90,5 +93,16 @@ export class UserController{
       return;
 
     }}
+
+   async updateUser(req:IncomingMessage,res:ServerResponse){
+    const urlParts = req.url?.split('/');
+    const id = urlParts ? urlParts[urlParts.length - 1] : null;
+    const user = await getRequestBody(req);
+     const updateUser=this.userService.updateUser(id as string,user)
+     if(!updateUser){
+        sendResponse(res,404,'User not found')
+     }
+     sendResponse(res,200,"User update successfully",updateUser)
+    }
 }
 
