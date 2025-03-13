@@ -25,7 +25,7 @@ export class Userservice{
     }
 
    async getUserByEmail(email:string){
-          const query=`SELECT * FROM users WHERE id=$1`
+          const query=`SELECT * FROM users WHERE email=$1`
           const result = await pool.query(query,[email])
           return result.rows[0] || null;
     }
