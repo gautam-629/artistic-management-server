@@ -8,5 +8,4 @@ enum Role{
     SuperAdmin='super_admin',
     ArtistManager = 'artist_manager',
     Artist = 'artist',
-    user='user'
 }

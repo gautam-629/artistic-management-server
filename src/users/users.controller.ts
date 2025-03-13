@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { Userservice } from "./users.service";
 import { getRequestBody } from "../common/util/requestUtils";
 import { asyncWrapper } from "../common/util/asyncWrapper";
+import { IUser } from "./users";
 
 export class UserController{
     constructor(private userService:Userservice){}
@@ -20,14 +21,16 @@ export class UserController{
     }
 
     async createUser(req: IncomingMessage, res: ServerResponse) {
-        const body:any = await getRequestBody(req);
-        if (!body.first_name || !body.last_name || !body.email || !body.role) {
+        const user:IUser = await getRequestBody(req);
+
+        if (!user.first_name || !user.last_name || !user.email || !user.role || !user.phone || !user.gender || !user.dob ||!user.address) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Missing required fields' }));
           return;
         }
     
-        const newUser = await this.userService.createUser(body);
+        const newUser = await this.userService.createUser(user);
+
         res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(newUser));
       }
