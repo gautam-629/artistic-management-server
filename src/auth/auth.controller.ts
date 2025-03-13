@@ -72,7 +72,7 @@ export class AuthController{
 
           const payload = { 
             sub: user.id,
-            role:user.userType
+            role:user.role
         };
 
         const token = this.jwtToken.generateToken(payload)

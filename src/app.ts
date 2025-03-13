@@ -5,9 +5,10 @@ import { Userservice } from './users/users.service';
 import { sendResponse } from './common/util/sendResponse';
 import { AuthController } from './auth/auth.controller';
 import { JwtToken } from './common/util/jwtToken';
+import { Authorize } from './common/middleware/authorize';
 
 const userservice=new Userservice()
-const userController=new UserController(userservice)
+const userController=new UserController(userservice,new Authorize())
 const authController=new AuthController(userservice,new JwtToken())
 const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) => {
 
