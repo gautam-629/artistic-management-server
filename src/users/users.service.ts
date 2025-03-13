@@ -59,4 +59,11 @@ export class Userservice{
        }
     }
 
+    async deleteUser(id:string){
+         const query=`DELETE FROM users WHERE id= $1 RETURNING  id`;
+         const result=await pool.query(query,[id]);
+         return result.rows[0] || null;
+    }
+
+
 }
