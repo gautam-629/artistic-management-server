@@ -8,7 +8,6 @@ export function asyncWrapper(
     try {
       await handler(req, res);
     } catch (error:any) {
-  
     if(error instanceof CustomError){
       sendResponse(res,error.statusCode,error.message)
     }

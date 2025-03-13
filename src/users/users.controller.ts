@@ -19,6 +19,9 @@ export class UserController{
             }else if(req.method==='GET' && id){
               return asyncWrapper(this.getUserById.bind(this))(req, res);
             }
+            else if(req.method === 'GET' && !id){
+              return asyncWrapper(this.getUsers.bind(this))(req, res);
+            }
             else {
                 sendResponse(res,405,"Method Not Allowed")
               }
@@ -42,7 +45,9 @@ export class UserController{
 
     async getUserById(req:IncomingMessage,res:ServerResponse){
       
+
       const urlParts = req.url?.split('/');
+
 
       const id = urlParts ? urlParts[urlParts.length - 1] : null;
       
@@ -59,5 +64,17 @@ export class UserController{
 
     }
 
+    async getUsers(req:IncomingMessage,res:ServerResponse){
+      const url = new URL(req.url || '', `http://${req.headers.host}`);
+      const page = Number(url.searchParams.get('page')) || 1;
+      const limit = Number(url.searchParams.get('limit')) || 10;
+      
+      const users = await this.userService.getUsers(page, limit);
+
+      const userDto=UserDTO.fromUsers(users.data)
+
+      sendResponse(res,200,"User find Sucessfully",{users:userDto,meta:users.pagination})
+
+    }
 }
 
