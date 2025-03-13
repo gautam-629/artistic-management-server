@@ -24,10 +24,16 @@ export class Userservice{
       return result.rows[0];
     }
 
-  async getUserByEmail(email:string){
-          const query=`SELECT * FROM users WHERE email=$1`
+   async getUserByEmail(email:string){
+          const query=`SELECT * FROM users WHERE id=$1`
           const result = await pool.query(query,[email])
           return result.rows[0] || null;
     }
  
+   async getUserUserById(id:string){
+      const query=  `SELECT * FROM users WHERE id=$1`
+      const result= await pool.query(query,[id])
+      return result.rows[0] || null;
+    }
+
 }
