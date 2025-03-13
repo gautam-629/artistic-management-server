@@ -1,9 +1,16 @@
+import { CustomError } from "../common/util/ErrorHandler";
 import pool from "../config/data-source";
 import { IUser } from "./users";
 import bcrypt from 'bcryptjs';
 export class Userservice{
    async createUser(user:IUser){
         const { first_name, last_name, email, phone, dob, gender, address, role ,password}=user;
+
+        const isUserExit= await this.getUserByEmail(user.email)
+
+        if(isUserExit){
+            throw new CustomError(400,"Email is already exists!")
+        }
 
         const hashPassword= await bcrypt.hash(password,10)
 
@@ -17,5 +24,10 @@ export class Userservice{
       return result.rows[0];
     }
 
+  async getUserByEmail(email:string){
+          const query=`SELECT * FROM users WHERE email=$1`
+          const result = await pool.query(query,[email])
+          return result.rows[0] || null;
+    }
  
 }

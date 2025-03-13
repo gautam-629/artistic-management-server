@@ -10,4 +10,5 @@ export function sendResponse(res: ServerResponse, statusCode: number, message: s
     };
 
     res.end(JSON.stringify(response));
+    
 }
