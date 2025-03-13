@@ -4,10 +4,11 @@ import { UserController } from './users/users.controller';
 import { Userservice } from './users/users.service';
 import { sendResponse } from './common/util/sendResponse';
 import { AuthController } from './auth/auth.controller';
+import { JwtToken } from './common/util/jwtToken';
 
 const userservice=new Userservice()
 const userController=new UserController(userservice)
-const authController=new AuthController(userservice)
+const authController=new AuthController(userservice,new JwtToken())
 const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) => {
 
   const path=req.url?.split('/')[1];
