@@ -5,9 +5,14 @@ import { asyncWrapper } from "../common/util/asyncWrapper";
 import { IUser } from "./users";
 import { sendResponse } from "../common/util/sendResponse";
 import { UserDTO } from "./users.dto";
+import { Authorize } from "../common/middleware/authorize";
+import { Role } from "../common/enum";
 
 export class UserController{
-    constructor(private userService:Userservice){}
+    constructor(
+      private userService:Userservice,
+      private authorizeService :Authorize
+    ){}
 
     handleRequest(req:IncomingMessage,res:ServerResponse){
         const url = new URL(req.url || '', `http://${req.headers.host}`);
@@ -34,6 +39,9 @@ export class UserController{
     }
 
     async createUser(req: IncomingMessage, res: ServerResponse) {
+
+      if (!( this.authorizeService.authorize(req, res, [Role.ArtistManager]))) return;
+
         const user:IUser = await getRequestBody(req);
 
         if (!user.first_name || !user.last_name || !user.email || !user.phone || !user.gender || !user.dob ||!user.address || !user.password

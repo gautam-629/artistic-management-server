@@ -14,5 +14,6 @@ export const Config = {
   JWT_EXPIRES_IN,
   JWT_SECRET,
   DB_PASSWORD,
-  DB_PORT
+  DB_PORT,
+  
 };

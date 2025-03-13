@@ -11,8 +11,9 @@ export class JwtToken{
   private expiresIn: string;
 
   constructor() {
-    this.secretKey = Config.JWT_SECRET || "secretKey";
+    this.secretKey = Config.JWT_SECRET || "i love you";
     this.expiresIn = Config.JWT_EXPIRES_IN || "1h";
+
   }
 
   generateToken(payload: { sub: string; role: string }): string {
