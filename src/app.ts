@@ -2,9 +2,12 @@ import http, { IncomingMessage, ServerResponse } from 'http';
 import { testDbConnection } from './config/data-source';
 import { UserController } from './users/users.controller';
 import { Userservice } from './users/users.service';
+import { sendResponse } from './common/util/sendResponse';
+import { AuthController } from './auth/auth.controller';
 
-const userController=new UserController(new Userservice())
-
+const userservice=new Userservice()
+const userController=new UserController(userservice)
+const authController=new AuthController(userservice)
 const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) => {
 
   const path=req.url?.split('/')[1];
@@ -22,9 +25,12 @@ const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) =>
 
   if (path === 'users') {
     await userController.handleRequest(req, res);
-  } else {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Not Found' }));
+  }
+  else if(path==='auth'){
+    await authController.handleRequest(req, res);
+  }
+   else {
+    sendResponse(res,404,'Not Found')
   }
 
 });

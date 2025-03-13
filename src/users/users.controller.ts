@@ -36,7 +36,7 @@ export class UserController{
     async createUser(req: IncomingMessage, res: ServerResponse) {
         const user:IUser = await getRequestBody(req);
 
-        if (!user.first_name || !user.last_name || !user.email || !user.role || !user.phone || !user.gender || !user.dob ||!user.address) {
+        if (!user.first_name || !user.last_name || !user.email || !user.phone || !user.gender || !user.dob ||!user.address) {
           sendResponse(res, 400, 'Missing required fields');
           return;
         }
