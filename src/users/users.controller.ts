@@ -19,6 +19,15 @@ export class UserController{
             }else if(req.method==='GET' && id){
               return asyncWrapper(this.getUserById.bind(this))(req, res);
             }
+            else if(req.method === 'GET' && !id){
+              return asyncWrapper(this.getUsers.bind(this))(req, res);
+            }
+            else if (req.method === 'DELETE' && id){
+              return asyncWrapper(this.deleteUser.bind(this))(req, res);
+            }
+            else if (req.method === 'PUT' && id){
+              return asyncWrapper(this.updateUser.bind(this))(req, res);
+            }
             else {
                 sendResponse(res,405,"Method Not Allowed")
               }
@@ -43,7 +52,6 @@ export class UserController{
     async getUserById(req:IncomingMessage,res:ServerResponse){
       
       const urlParts = req.url?.split('/');
-
       const id = urlParts ? urlParts[urlParts.length - 1] : null;
       
       const user= await this.userService.getUserByEmail(id as string);
@@ -59,5 +67,42 @@ export class UserController{
 
     }
 
+    async getUsers(req:IncomingMessage,res:ServerResponse){
+      const url = new URL(req.url || '', `http://${req.headers.host}`);
+      const page = Number(url.searchParams.get('page')) || 1;
+      const limit = Number(url.searchParams.get('limit')) || 10;
+
+      const users = await this.userService.getUsers(page, limit);
+
+      const userDto=UserDTO.fromUsers(users.data)
+
+      sendResponse(res,200,"User find Sucessfully",{users:userDto,meta:users.pagination})
+
+    }
+
+    async deleteUser(req:IncomingMessage,res:ServerResponse){{
+      const urlParts = req.url?.split('/');
+      const id = urlParts ? urlParts[urlParts.length - 1] : null;
+      const deletedUser= await this.userService.deleteUser(id as string)
+
+      if(!deletedUser){
+        sendResponse(res,404,'User not found')
+        return;
+      }
+      sendResponse(res,200,'User deleted successfully',{id:deletedUser.id})
+      return;
+
+    }}
+
+   async updateUser(req:IncomingMessage,res:ServerResponse){
+    const urlParts = req.url?.split('/');
+    const id = urlParts ? urlParts[urlParts.length - 1] : null;
+    const user = await getRequestBody(req);
+     const updateUser=this.userService.updateUser(id as string,user)
+     if(!updateUser){
+        sendResponse(res,404,'User not found')
+     }
+     sendResponse(res,200,"User update successfully",updateUser)
+    }
 }
 
