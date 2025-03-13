@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { sendResponse } from "./sendResponse";
 
 export function asyncWrapper(
   handler: (req: IncomingMessage, res: ServerResponse) => Promise<void>
@@ -7,9 +8,7 @@ export function asyncWrapper(
     try {
       await handler(req, res);
     } catch (error) {
-
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
+     sendResponse(res,500,'Internal Server Error')
     }
   };
 }
