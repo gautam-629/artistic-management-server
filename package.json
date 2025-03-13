@@ -55,9 +55,12 @@
   },
   "dependencies": {
     "@types/cls-hooked": "^4.3.9",
+    "bcryptjs": "^3.0.2",
     "cls-hooked": "^4.2.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
+    "i": "^0.3.7",
+    "npm": "^11.2.0",
     "pg": "^8.13.3",
     "winston": "^3.17.0"
   }
