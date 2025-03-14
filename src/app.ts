@@ -7,12 +7,11 @@ import { AuthController } from './auth/auth.controller';
 import { JwtToken } from './common/util/jwtToken';
 import { Authorize } from './common/middleware/authorize';
 
-const userservice=new Userservice()
-const userController=new UserController(userservice,new Authorize())
-const authController=new AuthController(userservice,new JwtToken())
-const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) => {
-
-  const path=req.url?.split('/')[1];
+const userservice = new Userservice();
+const userController = new UserController(userservice, new Authorize());
+const authController = new AuthController(userservice, new JwtToken());
+const app = http.createServer(async (req: IncomingMessage, res: ServerResponse) => {
+  const path = req.url?.split('/')[1];
 
   //cors
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,23 +19,25 @@ const app = http.createServer(async (req:IncomingMessage, res:ServerResponse) =>
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
-    res.writeHead(200)
-    res.end()
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+
+  if (req.url === '/' && req.method === 'GET') {
+    sendResponse(res, 200, 'Welcome to the API');
     return;
   }
 
   if (path === 'users') {
     await userController.handleRequest(req, res);
-  }
-  else if(path==='auth'){
+  } else if (path === 'auth') {
     await authController.handleRequest(req, res);
+  } else {
+    sendResponse(res, 404, 'Not Found');
   }
-   else {
-    sendResponse(res,404,'Not Found')
-  }
-
 });
 
-testDbConnection()
+testDbConnection();
 
 export default app;

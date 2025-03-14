@@ -25,9 +25,9 @@ services:
       DB_NAME: artist_management
       DB_PASSWORD: root
       DB_PORT: 5432
-      PORT: 6000
+      PORT: 5500
     ports:
-      - "6000:6000"
+      - "5500:5500"
     depends_on:
       - postgres
     restart: unless-stopped
