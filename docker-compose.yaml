@@ -17,23 +17,23 @@ services:
   artistic-app:
     build:
       context: .
-      dockerfile: ./docker/dev/Dockerfile  
+      dockerfile: ./docker/dev/Dockerfile
     container_name: artistic-container
     environment:
       DB_USER: root
-      DB_HOST: postgres  
+      DB_HOST: postgres
       DB_NAME: artist_management
       DB_PASSWORD: root
       DB_PORT: 5432
       PORT: 5500
     ports:
-      - "5500:5500"
+      - '5500:5500'
     depends_on:
       - postgres
     restart: unless-stopped
     volumes:
-      - ./src:/app/src  
-    command: npm run dev  
+      - ./src:/app/src
+    command: npm run dev
 
 volumes:
   manage:

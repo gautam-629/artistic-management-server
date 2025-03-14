@@ -1,7 +1,7 @@
 export async function getRequestBody(req: any) {
   return new Promise<any>((resolve, reject) => {
     let body = '';
-    
+
     req.on('data', (chunk: string) => {
       body += chunk;
     });
