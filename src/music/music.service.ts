@@ -122,4 +122,24 @@ export class MusicService {
 
     return result.rows[0] || null;
   }
+
+  async getSongsByArtist(userId: string) {
+    const query = `SELECT 
+                m.id AS song_id,
+                m.title AS song_title,
+                m.album_name,
+                m.genre,
+                m.created_at AS song_created_at,
+                u.id AS user_id,
+                u.first_name,
+                u.last_name,
+                u.email
+            FROM musics m
+            INNER JOIN artists a ON m.artist_id = a.id
+            INNER JOIN users u ON a.user_id = u.id
+            WHERE u.id = $1`;
+
+    const result = await pool.query(query, [userId]);
+    return result.rows || [];
+  }
 }
