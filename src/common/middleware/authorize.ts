@@ -2,6 +2,10 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { JwtToken } from '../util/jwtToken';
 import { sendResponse } from '../util/sendResponse';
 
+export interface AuthenticatedRequest extends IncomingMessage {
+  user?: { id: string; role: string };
+}
+
 export class Authorize {
   private jwtToken: JwtToken;
 
@@ -9,7 +13,7 @@ export class Authorize {
     this.jwtToken = new JwtToken();
   }
 
-  public authorize(req: IncomingMessage, res: ServerResponse, roles: string[]): boolean {
+  public authorize(req: AuthenticatedRequest, res: ServerResponse, roles: string[]): boolean {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -31,6 +35,7 @@ export class Authorize {
       sendResponse(res, 403, 'Forbidden: Insufficient Role');
       return false;
     }
+    req.user = { id: payload.sub, role: payload.role };
 
     return true;
   }

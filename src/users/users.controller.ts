@@ -109,7 +109,7 @@ export class UserController {
   }
 
   async updateUser(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
 
     const urlParts = req.url?.split('/');
     const id = urlParts ? urlParts[urlParts.length - 1] : null;

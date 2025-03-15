@@ -60,7 +60,7 @@ export class ArtistService {
     return result.rows[0] || null;
   }
 
-  async getArtists(page: number, limit: number) {
+  async getDetailsArtists(page: number, limit: number) {
     const offset = (page - 1) * limit;
 
     const query = `
@@ -136,6 +136,12 @@ export class ArtistService {
       `;
 
     const result = await pool.query(query, [id, first_release_year, no_of_albums_released, id]);
+    return result.rows[0] || null;
+  }
+
+  async getSingleArtistByUserId(user_id: string) {
+    const query = `SELECT * FROM artists WHERE user_id=$1`;
+    const result = await pool.query(query, [user_id]);
     return result.rows[0] || null;
   }
 }

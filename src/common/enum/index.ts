@@ -9,3 +9,11 @@ export enum Role {
   ArtistManager = 'artist_manager',
   Artist = 'artist',
 }
+
+export enum Genre {
+  RNB = 'rnb',
+  COUNTRY = 'country',
+  CLASSIC = 'classic',
+  ROCK = 'rock',
+  JAZZ = 'jazz',
+}
