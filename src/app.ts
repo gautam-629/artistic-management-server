@@ -8,12 +8,16 @@ import { JwtToken } from './common/util/jwtToken';
 import { Authorize } from './common/middleware/authorize';
 import { ArtistController } from './artise/artise.controller';
 import { ArtistService } from './artise/artise.service';
+import { MusicController } from './music/music.controller';
+import { MusicService } from './music/music.service';
 
 const userservice = new Userservice();
 const authorize = new Authorize();
+const artiseService = new ArtistService(userservice);
 const userController = new UserController(userservice, authorize);
 const authController = new AuthController(userservice, new JwtToken());
-const artiseController = new ArtistController(new ArtistService(userservice), authorize);
+const artiseController = new ArtistController(artiseService, authorize);
+const musicController = new MusicController(new MusicService(artiseService), authorize);
 const app = http.createServer(async (req: IncomingMessage, res: ServerResponse) => {
   const path = req.url?.split('/')[1];
 
@@ -39,6 +43,8 @@ const app = http.createServer(async (req: IncomingMessage, res: ServerResponse) 
     await authController.handleRequest(req, res);
   } else if (path === 'artists') {
     await artiseController.handleRequest(req, res);
+  } else if (path === 'musics') {
+    await musicController.handleRequest(req, res);
   } else {
     sendResponse(res, 404, 'Not Found');
   }

@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { JwtToken } from '../util/jwtToken';
 import { sendResponse } from '../util/sendResponse';
 
-interface AuthenticatedRequest extends IncomingMessage {
+export interface AuthenticatedRequest extends IncomingMessage {
   user?: { id: string; role: string };
 }
 

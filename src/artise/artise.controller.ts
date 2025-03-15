@@ -34,7 +34,7 @@ export class ArtistController {
   }
 
   async createArtist(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager, Role.SuperAdmin])) return;
 
     const artist: IArtist = await getRequestBody(req);
 
@@ -81,7 +81,7 @@ export class ArtistController {
     const page = Number(url.searchParams.get('page')) || 1;
     const limit = Number(url.searchParams.get('limit')) || 10;
 
-    const artists = await this.artistService.getArtists(page, limit);
+    const artists = await this.artistService.getDetailsArtists(page, limit);
 
     sendResponse(res, 200, 'Artist find Sucessfully', {
       artists: artists,
