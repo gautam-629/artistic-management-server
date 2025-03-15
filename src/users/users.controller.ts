@@ -35,7 +35,7 @@ export class UserController {
   }
 
   async createUser(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
 
     const user: IUser = await getRequestBody(req);
 
@@ -61,6 +61,8 @@ export class UserController {
   }
 
   async getUserById(req: IncomingMessage, res: ServerResponse) {
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+
     const urlParts = req.url?.split('/');
     const id = urlParts ? urlParts[urlParts.length - 1] : null;
 
@@ -77,6 +79,8 @@ export class UserController {
   }
 
   async getUsers(req: IncomingMessage, res: ServerResponse) {
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+
     const url = new URL(req.url || '', `http://${req.headers.host}`);
     const page = Number(url.searchParams.get('page')) || 1;
     const limit = Number(url.searchParams.get('limit')) || 10;
@@ -89,6 +93,8 @@ export class UserController {
   }
 
   async deleteUser(req: IncomingMessage, res: ServerResponse) {
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+
     {
       const urlParts = req.url?.split('/');
       const id = urlParts ? urlParts[urlParts.length - 1] : null;
@@ -104,6 +110,8 @@ export class UserController {
   }
 
   async updateUser(req: IncomingMessage, res: ServerResponse) {
+    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+
     const urlParts = req.url?.split('/');
     const id = urlParts ? urlParts[urlParts.length - 1] : null;
     const user = await getRequestBody(req);
