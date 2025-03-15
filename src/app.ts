@@ -6,10 +6,14 @@ import { sendResponse } from './common/util/sendResponse';
 import { AuthController } from './auth/auth.controller';
 import { JwtToken } from './common/util/jwtToken';
 import { Authorize } from './common/middleware/authorize';
+import { ArtistController } from './artise/artise.controller';
+import { ArtistService } from './artise/artise.service';
 
 const userservice = new Userservice();
-const userController = new UserController(userservice, new Authorize());
+const authorize = new Authorize();
+const userController = new UserController(userservice, authorize);
 const authController = new AuthController(userservice, new JwtToken());
+const artiseController = new ArtistController(new ArtistService(userservice), authorize);
 const app = http.createServer(async (req: IncomingMessage, res: ServerResponse) => {
   const path = req.url?.split('/')[1];
 
@@ -33,6 +37,8 @@ const app = http.createServer(async (req: IncomingMessage, res: ServerResponse) 
     await userController.handleRequest(req, res);
   } else if (path === 'auth') {
     await authController.handleRequest(req, res);
+  } else if (path === 'artists') {
+    await artiseController.handleRequest(req, res);
   } else {
     sendResponse(res, 404, 'Not Found');
   }
