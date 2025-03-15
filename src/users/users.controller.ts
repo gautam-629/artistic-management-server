@@ -52,7 +52,6 @@ export class UserController {
       sendResponse(res, 400, 'Missing required fields');
       return;
     }
-
     const newUser = await this.userService.createUser(user);
 
     const userDto = UserDTO.fromUser(newUser);
@@ -110,7 +109,7 @@ export class UserController {
   }
 
   async updateUser(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
 
     const urlParts = req.url?.split('/');
     const id = urlParts ? urlParts[urlParts.length - 1] : null;

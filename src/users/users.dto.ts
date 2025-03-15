@@ -35,7 +35,7 @@ export class UserDTO {
 
   static fromUser(user: IUser) {
     return new UserDTO(
-      user.id,
+      user.id as number,
       user.first_name,
       user.last_name,
       user.email,
