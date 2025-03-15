@@ -28,6 +28,8 @@ export class MusicController {
       return asyncWrapper(this.deleteMusic.bind(this))(req, res);
     } else if (req.method === 'PUT' && id) {
       return asyncWrapper(this.updateMusic.bind(this))(req, res);
+    } else if (req.method === 'POST' && path.startsWith('/musics/artist/')) {
+      return asyncWrapper(this.getSongsByArtist.bind(this))(req, res);
     } else {
       sendResponse(res, 405, 'Method Not Allowed');
     }
@@ -120,5 +122,27 @@ export class MusicController {
       sendResponse(res, 404, 'Music not found');
     }
     sendResponse(res, 200, 'Music update successfully', updateUser);
+  }
+  async getSongsByArtist(req: AuthenticatedRequest, res: ServerResponse) {
+    if (
+      !this.authorizeService.authorize(req, res, [Role.Artist, Role.ArtistManager, Role.SuperAdmin])
+    )
+      return;
+    if (!this.authorizeService.authorize(req, res, [Role.Artist])) return;
+    const body: any = await getRequestBody(req);
+
+    if (!body.artistId) {
+      sendResponse(res, 400, 'Artist ID is required');
+      return;
+    }
+
+    const songs = await this.mucicsService.getSongsByArtist(body.artistId as string);
+
+    if (!songs || songs.length === 0) {
+      sendResponse(res, 200, 'No songs found for this artist', { songs: [] });
+      return;
+    }
+
+    sendResponse(res, 200, 'Songs found successfully', { songs });
   }
 }
