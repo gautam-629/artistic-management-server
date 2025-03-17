@@ -8,6 +8,7 @@ const pool = new Pool({
   database: Config.DB_NAME,
   password: Config.DB_PASSWORD,
   port: parseInt(Config.DB_PORT!),
+  ssl: { rejectUnauthorized: false },
 });
 
 export const testDbConnection = async () => {
