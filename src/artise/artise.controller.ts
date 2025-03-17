@@ -34,7 +34,7 @@ export class ArtistController {
   }
 
   async createArtist(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager, Role.SuperAdmin])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
 
     const artist: IArtist = await getRequestBody(req);
 
@@ -90,7 +90,7 @@ export class ArtistController {
   }
 
   async deleteArtist(req: IncomingMessage, res: ServerResponse) {
-    if (!this.authorizeService.authorize(req, res, [Role.SuperAdmin])) return;
+    if (!this.authorizeService.authorize(req, res, [Role.ArtistManager])) return;
 
     {
       const urlParts = req.url?.split('/');
