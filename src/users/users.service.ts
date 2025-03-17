@@ -49,7 +49,7 @@ export class Userservice {
   async getUsers(page: number, limit: number) {
     const offset = (page - 1) * limit;
 
-    const query = `SELECT * from users ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
+    const query = `SELECT * from users WHERE role = 'super_admin' OR role = 'artist_manager'  ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
 
     const countQuery = `SELECT COUNT(*) from users`;
 

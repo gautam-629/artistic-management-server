@@ -56,7 +56,6 @@ export class MusicService {
       pool.query(query, [limit, offset]),
       pool.query(countQuery),
     ]);
-
     return {
       data: music.rows,
       pagination: {
