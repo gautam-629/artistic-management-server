@@ -21,7 +21,6 @@ export const createTables = async () => {
   
         CREATE TABLE IF NOT EXISTS artists (
           id SERIAL PRIMARY KEY,
-          name VARCHAR(255) NOT NULL,
           first_release_year INTEGER,    
           user_id INT REFERENCES users(id) ON DELETE CASCADE,  
           no_of_albums_released INTEGER,   
