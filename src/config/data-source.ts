@@ -8,6 +8,10 @@ const pool = new Pool({
   database: Config.DB_NAME,
   password: Config.DB_PASSWORD,
   port: parseInt(Config.DB_PORT!),
+  ssl: {
+    rejectUnauthorized: false, // Ensure SSL certificate is not rejected.
+  },
+  connectionString: `postgresql://${Config.DB_USER}:${Config.DB_PASSWORD}@${Config.DB_HOST}:${Config.DB_PORT}/${Config.DB_NAME}?sslmode=require`,
 });
 
 export const testDbConnection = async () => {
