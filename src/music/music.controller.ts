@@ -132,7 +132,7 @@ export class MusicController {
     const body: any = await getRequestBody(req);
 
     if (!body.name) {
-      sendResponse(res, 400, 'Artist ID is required');
+      sendResponse(res, 400, 'name is required');
       return;
     }
 
