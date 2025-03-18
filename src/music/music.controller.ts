@@ -131,12 +131,12 @@ export class MusicController {
     if (!this.authorizeService.authorize(req, res, [Role.Artist])) return;
     const body: any = await getRequestBody(req);
 
-    if (!body.artistId) {
+    if (!body.name) {
       sendResponse(res, 400, 'Artist ID is required');
       return;
     }
 
-    const songs = await this.mucicsService.getSongsByArtist(body.artistId as string);
+    const songs = await this.mucicsService.getSongsByArtist(body.name as string);
 
     if (!songs || songs.length === 0) {
       sendResponse(res, 200, 'No songs found for this artist', { songs: [] });
