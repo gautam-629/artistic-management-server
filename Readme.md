@@ -66,6 +66,9 @@ npm run lint:check
 
 # Fix linting issues
 npm run lint:fix
+
+# Create Table
+npm run lint:fix
 ```
 
 ## Building for Production
@@ -75,3 +78,7 @@ To build the project for production:
 ```bash
 npm run build
 ```
+
+## DEMO
+
+[Artist Management Client](https://artist-management-client-git-main-gautam629s-projects.vercel.app/)

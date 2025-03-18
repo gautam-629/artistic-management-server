@@ -13,7 +13,7 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "create-tables":"ts-node src/config/script.ts",
+    "create-tables": "ts-node src/config/script.ts",
     "prepare": "husky"
   },
   "repository": {
